@@ -26,31 +26,33 @@ def analisar_imagem(caminho_imagem):
     with open(caminho_imagem, "rb") as arquivo:
         imagem = arquivo.read()
 
+    print("\n" + "=" * 60)
+    print("       INOVA TRÔNICA - VISÃO COMPUTACIONAL")
+    print("=" * 60)
+
+    print("\nImagem selecionada:")
+    print(f"  {caminho_imagem}")
+
+    print("\nEnviando imagem para o Azure AI Vision...")
+
     resultado = client.analyze(
         image_data=imagem,
         visual_features=[
-            VisualFeatures.CAPTION,
-            VisualFeatures.TAGS
+            VisualFeatures.CAPTION
         ],
         gender_neutral_caption=True
     )
 
-    print("\n" + "=" * 55)
-    print("       INOVA TRÔNICA - VISÃO COMPUTACIONAL")
-    print("=" * 55)
+    print("\nResultado do Serviço Cognitivo:")
 
     if resultado.caption:
         print("\nDescrição da imagem:")
         print(f"  {resultado.caption.text}")
-        print(f"\nConfiança da análise:")
+
+        print("\nConfiança da análise:")
         print(f"  {resultado.caption.confidence:.2%}")
 
-    if resultado.tags:
-        print("\nElementos identificados:")
-        tags = [tag if isinstance(tag, str) else tag.name for tag in resultado.tags]
-        print(f"  {', '.join(tags)}")
-
-    print("\n" + "=" * 55)
+    print("\n" + "=" * 60)
 
 
 if __name__ == "__main__":
